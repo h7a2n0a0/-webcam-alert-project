@@ -110,7 +110,7 @@ function App() {
         const isAboveOrEqualRightEar = y <= ears.right.y;
 
         if (isAboveOrEqualLeftEar || isAboveOrEqualRightEar) {
-          console.log('👂 손이 귀 이상으로 올라왔어요!');
+          console.log('머리에서 손 내려!!!!!');
           showNotification();
         }
       }
@@ -136,14 +136,14 @@ function App() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        text: "👂 손이 귀 이상으로 올라왔어요! (슬랙 알림)",
+        text: "머리에서 손 내려!!!!!",
       }),
     });
   };
 
   return (
     <div style={{ textAlign: 'center' }}>
-      <h1>👂 손 귀 닿음 감지기</h1>
+      <h1>머리 긁기 감지기</h1>
       <div style={{ position: 'relative' }}>
         <video
           ref={videoRef}
