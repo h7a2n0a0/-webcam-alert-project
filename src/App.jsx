@@ -119,7 +119,7 @@ function App() {
 
   const showNotification = () => {
     const now = Date.now();
-    if (now - lastAlertTime.current < 10000) return;
+    if (now - lastAlertTime.current < 3000) return;
     lastAlertTime.current = now;
 
     if (Notification.permission === 'granted') {
