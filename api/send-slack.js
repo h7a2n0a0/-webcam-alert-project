@@ -5,7 +5,7 @@ export default async function handler(req, res) {
   
     const { text } = req.body;
   
-    const webhookUrl = "https://hooks.slack.com/services/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";
+    const webhookUrl = "https://hooks.slack.com/services/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";
   
     try {
       const slackRes = await fetch(webhookUrl, {

@@ -9,7 +9,7 @@ function App() {
   const canvasRef = useRef(null);
   const latestEarPositions = useRef({ left: null, right: null });
   const lastAlertTime = useRef(0);
-  
+
   useEffect(() => {
     // 웹캠 연결
     navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
@@ -17,8 +17,6 @@ function App() {
         videoRef.current.srcObject = stream;
       }
     });
-
-    sendSlackAlert();
 
     // 크롬 알림 권한 요청
     Notification.requestPermission();
@@ -32,21 +30,6 @@ function App() {
         detectHands(net);
       }, 100);
     };
-
-    
-
-
-const showNotification = () => {
-  const now = Date.now();
-  if (now - lastAlertTime < 10000) return; // 10초 이내엔 다시 안 띄움
-  lastAlertTime.current = now;
-
-  if (Notification.permission === 'granted') {
-    new Notification('머리에서 손 내려!!!!!!!');
-  }
-
-  sendSlackAlert();  
-};
 
     // 얼굴 모델 로딩
     const faceMesh = new FaceMesh({
@@ -125,7 +108,7 @@ const showNotification = () => {
       if (ears.left && ears.right) {
         const isAboveOrEqualLeftEar = y <= ears.left.y;
         const isAboveOrEqualRightEar = y <= ears.right.y;
-      
+
         if (isAboveOrEqualLeftEar || isAboveOrEqualRightEar) {
           console.log('👂 손이 귀 이상으로 올라왔어요!');
           showNotification();
@@ -134,13 +117,20 @@ const showNotification = () => {
     }
   };
 
-  const getDistance = (x1, y1, x2, y2) => {
-    return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+  const showNotification = () => {
+    const now = Date.now();
+    if (now - lastAlertTime.current < 10000) return;
+    lastAlertTime.current = now;
+
+    if (Notification.permission === 'granted') {
+      new Notification('머리에서 손 내려!!!!!!!');
+    }
+
+    sendSlackAlert();
   };
 
-
   const sendSlackAlert = async () => {
-    await fetch("https://hooks.slack.com/services/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", {
+    await fetch("/api/send-slack", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
