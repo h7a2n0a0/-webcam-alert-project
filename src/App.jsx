@@ -18,6 +18,8 @@ function App() {
       }
     });
 
+    sendSlackAlert();
+
     // 크롬 알림 권한 요청
     Notification.requestPermission();
 
@@ -136,14 +138,9 @@ const showNotification = () => {
     return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
   };
 
-  const showNotification = () => {
-    if (Notification.permission === 'granted') {
-      new Notification('머리에서 손 내려!!!!!!!!!');
-    }
-  };
 
   const sendSlackAlert = async () => {
-    await fetch("https://hooks.slack.com/services/너의/webhook/url", {
+    await fetch("https://hooks.slack.com/services/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", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
